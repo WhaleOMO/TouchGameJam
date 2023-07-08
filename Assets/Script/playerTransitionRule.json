@@ -1,0 +1,26 @@
+{
+  "PlayerNone": {
+    "Red": "PlayerRed",
+    "Blue": "PlayerBlue",
+    "Green": "PlayerGreen",
+    "DeepGreen": "PlayerGreen",
+    "DeepBlue": "PlayerBlue",
+    "BlueGreen": "PlayerBlue"
+  },
+  "PlayerRed": {
+    "Blue": "PlayerNone",
+    "Green": "GameOver",
+    "DeepGreen": "GameOver",
+    "DeepBlue": "PlayerNone",
+    "BlueGreen": "GameOver"
+  },
+  "PlayerGreen": {
+    "Red": "GameOver",
+    "DeepBlue": "PlayerBlue"
+  },
+  "PlayerBlue": {
+    "Red": "PlayerNone",
+    "Green": "PlayerGreen",
+    "DeepGreen": "PlayerGreen"
+  }
+}
