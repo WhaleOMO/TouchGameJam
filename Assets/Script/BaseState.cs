@@ -39,7 +39,7 @@ public class BaseState: MonoBehaviour
     private Dictionary<string, Dictionary<string, string>> objectTransitionRule;
     private Dictionary<string, Dictionary<string, string>> playerTransitionRule;
 
-    public Queue<PlayTransitionAnimationEnum> PlayerTransitionAnimationQueue = new Queue<PlayTransitionAnimationEnum>();
+    public Queue<PlayerTransitionAnimationEnum> PlayerTransitionAnimationQueue = new Queue<PlayerTransitionAnimationEnum>();
 
     // Start is called before the first frame update
     void Start()
