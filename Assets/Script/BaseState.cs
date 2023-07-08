@@ -26,10 +26,20 @@ public enum StateEnum
 
 }
 
+public enum PlayTransitionAnimationEnum{
+    GameOver, // 死了（optional）
+    TurnBlue, // 变蓝色
+    TurnGreen, // 变绿色
+    TurnRed, // 变红色
+    TurnNone // 变没色
+}
+
 public class BaseState: MonoBehaviour
 {
     private Dictionary<string, Dictionary<string, string>> objectTransitionRule;
     private Dictionary<string, Dictionary<string, string>> playerTransitionRule;
+
+    public Queue<PlayTransitionAnimationEnum> PlayerTransitionAnimationQueue = new Queue<PlayTransitionAnimationEnum>();
 
     // Start is called before the first frame update
     void Start()
@@ -165,14 +175,19 @@ public class BaseState: MonoBehaviour
         {
             case StateEnum.GameOver:
                 // 游戏结束
+                PlayerTransitionAnimationQueue.Enqueue(PlayerTransitionAnimationEnum.GameOver);
                 break;
             case StateEnum.PlayerBlue:
+                PlayerTransitionAnimationQueue.Enqueue(PlayerTransitionAnimationEnum.TurnBlue);
                 break;
             case StateEnum.PlayerGreen:
+                PlayerTransitionAnimationQueue.Enqueue(PlayerTransitionAnimationEnum.TurnGreen);
                 break;
             case StateEnum.PlayerRed:
+                PlayerTransitionAnimationQueue.Enqueue(PlayerTransitionAnimationEnum.TurnRed);
                 break;
             case StateEnum.PlayerNone:
+                PlayerTransitionAnimationQueue.Enqueue(PlayerTransitionAnimationEnum.TurnNone);
                 break;
         }
         StartCoroutine(UpdateStatusAtNextFrame(this, newState));
