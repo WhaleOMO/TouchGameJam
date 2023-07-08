@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Art.meta
 guid: 1bdcbf5c4d4604140b90eb26c139304f
+========
+guid: 8634cbfc6d5eb4a4d95117992ebdc311
+>>>>>>>> 34630dc (上传asset store 免费素材):Assets/PolyMeshWorld/2D SideScroller Pixel Art Kit Free.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
