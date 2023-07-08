@@ -27,11 +27,15 @@ Material:
         m_Texture: {fileID: 2800000, guid: f227b5604f1d04270a6a927395cfdf8d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _NoiseTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Floats:
     - PixelSnap: 0
     - _EnableExternalAlpha: 0
     m_Colors:
-    - _ClothCol: {r: 0.9433962, g: 0.7164471, b: 0.7164471, a: 1}
+    - _ClothCol: {r: 0.9056604, g: 0.9056604, b: 0.9056604, a: 1}
     - _ClothColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Flip: {r: 1, g: 1, b: 1, a: 1}

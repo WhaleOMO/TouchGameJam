@@ -98,15 +98,25 @@ public class Player : MonoBehaviour
     private async void ChangeColor(Color targetColor)
     {
         int colID = Shader.PropertyToID("_ClothCol");
+        int oriColId = Shader.PropertyToID("_OriginCol");
+        int progId = Shader.PropertyToID("_ChangeProgress");
+        
         Color oriColor = material.GetColor(colID);
         TimeSpan deltaTimeSpan = TimeSpan.FromMilliseconds(10);
         
+        material.SetInt(Shader.PropertyToID("_ColorIsChanging"),1);
+        material.SetColor(oriColId, oriColor);
+        material.SetColor(colID, targetColor);
+        
         for (int i = 0; i < 100; i++)
         {
-            Color mixColor = Color.Lerp(oriColor, targetColor, i / 100.0f);
-            material.SetColor(colID, mixColor);
+            // Color mixColor = Color.Lerp(oriColor, targetColor, i / 100.0f);
+            // material.SetColor(colID, mixColor);
+            material.SetFloat(progId, i/100f);
             await Task.Delay(deltaTimeSpan);
         }
+        
+        material.SetInt(Shader.PropertyToID("_ColorIsChanging"),0);
     }
     
 }
