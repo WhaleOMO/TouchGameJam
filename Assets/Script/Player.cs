@@ -1,19 +1,23 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 [RequireComponent(typeof(MovementController))]
 public class Player : MonoBehaviour
 {
-    public float gravity = -20f;
-    public float runSpeed = 40f;
-    public LayerMask crouchLayer;
+    public float Gravity = -20f;
+    public float RunSpeed = 40f;
+    public LayerMask CrouchLayer;
+
+    public Color GreenColor;
 
     private Animator animator;
-    private SpriteRenderer renderer;
+    private SpriteRenderer sRenderer;
     private MovementController movementController;
     private BoxCollider2D collider2D;
+    private Material material;
     private Vector2 velocity;
     private float horizontalMove;
 
@@ -24,51 +28,50 @@ public class Player : MonoBehaviour
     void Start()
     {
         animator = GetComponent<Animator>();
-        renderer = GetComponent<SpriteRenderer>();
+        sRenderer = GetComponent<SpriteRenderer>();
         collider2D = GetComponent<BoxCollider2D>();
         movementController = GetComponent<MovementController>();
+        material = sRenderer.material;
     }
     
     void Update()
     {
         Vector2 input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-        velocity.x = input.x * runSpeed;
+        velocity.x = input.x * RunSpeed;
         
         isWalking = Mathf.Abs(velocity.x) > 0.5;
         isCrouching = CheckIfOverlapWithCrouchable();
 
         if (!isCrouching)
-            velocity.y += gravity * Time.deltaTime;
-
+            velocity.y = Mathf.Min(velocity.y, velocity.y + Gravity * Time.deltaTime);
+        else
+            velocity.y = input.y;
+                
         animator.SetBool("isWalking", isWalking);
         animator.SetBool("isCrouching", isCrouching);
-        movementController.Move(velocity * Time.deltaTime);
-
-        // If the input is moving the player right and the player is facing left...
-        if (velocity.x > 0 && !isFacingRight)
+        movementController.Move(velocity * Time.deltaTime, isCrouching);
+        
+        AutoFlip();
+        
+        // Temp test
+        if (Input.GetKeyDown(KeyCode.F))
         {
-            isFacingRight = true;
-            renderer.flipX = false;
-        } // Otherwise if the input is moving the player left and the player is facing right...
-        else if (velocity.x < 0 && isFacingRight)
-        {
-            isFacingRight = false;
-            renderer.flipX = true;
+            ChangeColor(GreenColor);
         }
     }
-
+    
     bool CheckIfOverlapWithCrouchable()
     {
         ContactFilter2D filter2D = new ContactFilter2D()
         {
-            layerMask = crouchLayer,
+            layerMask = CrouchLayer,
             useLayerMask = true,
         };
         Collider2D[] results = new Collider2D[5];
         int amount = collider2D.OverlapCollider(filter2D, results);
         for (int i = 0; i < Mathf.Min(amount, 5); i++)
         {
-            if (((1<<results[i].gameObject.layer) & crouchLayer) != 0)
+            if (((1<<results[i].gameObject.layer) & CrouchLayer) != 0)
             {
                 return true;
             }
@@ -76,4 +79,34 @@ public class Player : MonoBehaviour
 
         return false;
     }
+
+    void AutoFlip()
+    {
+        // If the input is moving the player right and the player is facing left...
+        if (velocity.x > 0 && !isFacingRight)
+        {
+            isFacingRight = true;
+            sRenderer.flipX = false;
+        } // Otherwise if the input is moving the player left and the player is facing right...
+        else if (velocity.x < 0 && isFacingRight)
+        {
+            isFacingRight = false;
+            sRenderer.flipX = true;
+        }
+    }
+
+    private async void ChangeColor(Color targetColor)
+    {
+        int colID = Shader.PropertyToID("_ClothCol");
+        Color oriColor = material.GetColor(colID);
+        TimeSpan deltaTimeSpan = TimeSpan.FromMilliseconds(10);
+        
+        for (int i = 0; i < 100; i++)
+        {
+            Color mixColor = Color.Lerp(oriColor, targetColor, i / 100.0f);
+            material.SetColor(colID, mixColor);
+            await Task.Delay(deltaTimeSpan);
+        }
+    }
+    
 }

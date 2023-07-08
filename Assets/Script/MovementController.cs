@@ -14,7 +14,6 @@ public class MovementController : MonoBehaviour
 	private const float skinWidth = 0.015f;
 
 	public LayerMask obstacleMask;
-	public LayerMask crouchableMask;
 	public int horizontalRayCount = 4;
 	public int verticalRayCount = 4;
 
@@ -30,7 +29,7 @@ public class MovementController : MonoBehaviour
 		CalculateRaySpacing();
 	}
 
-	public void Move(Vector3 velocity)
+	public void Move(Vector3 velocity, bool isCrouching)
 	{
 		UpdateRaycastsOrigins();
 		if (velocity.x != 0)
@@ -38,7 +37,7 @@ public class MovementController : MonoBehaviour
 			HorizontalCollision(ref velocity);
 		}
 
-		if (velocity.y != 0)
+		if (velocity.y != 0 && !isCrouching)
 		{
 			VerticalCollisions(ref velocity);
 		}
@@ -54,8 +53,6 @@ public class MovementController : MonoBehaviour
 		
 		for (int i = 0; i < verticalRayCount; i++)
 		{
-			rayOrigin += Vector2.right * (verticalRaySpacing * i + velocity.x);
-			
 			RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.up * directionY, rayLength, obstacleMask);
 			
 			if (hit)
@@ -65,6 +62,7 @@ public class MovementController : MonoBehaviour
 			}
 			
 			Debug.DrawRay(rayOrigin, Vector3.up * (directionY * rayLength), Color.red);
+			rayOrigin += Vector2.right * verticalRaySpacing;
 		}
 	}
 	
@@ -76,8 +74,6 @@ public class MovementController : MonoBehaviour
 		
 		for (int i = 0; i < horizontalRayCount; i++)
 		{
-			rayOrigin += Vector2.up * (verticalRaySpacing * i);
-			
 			RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.right * directionX, rayLength, obstacleMask);
 			
 			if (hit)
@@ -87,6 +83,7 @@ public class MovementController : MonoBehaviour
 			}
 			
 			Debug.DrawRay(rayOrigin, Vector3.right * (directionX * rayLength), Color.yellow);
+			rayOrigin += Vector2.up * horizontalRaySpacing;
 		}
 	}
 
@@ -94,7 +91,8 @@ public class MovementController : MonoBehaviour
 	{
 		Bounds bounds = collider.bounds;
 		bounds.Expand(skinWidth * -2);
-
+		// Debug.DrawRay(bounds.min, bounds.max-bounds.min, Color.cyan, 
+		// 	Vector3.Distance(bounds.min, bounds.max));
 		rayCastOrigins.bottomLeft = new Vector2(bounds.min.x, bounds.min.y);
 		rayCastOrigins.bottomRight = new Vector2(bounds.max.x, bounds.min.y);
 		rayCastOrigins.topLeft = new Vector2(bounds.min.x, bounds.max.y);
