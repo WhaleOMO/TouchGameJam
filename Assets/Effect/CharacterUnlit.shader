@@ -59,12 +59,6 @@
                 fixed3 oriCol = c.r;
                 fixed clothMask = c.g;
                 fixed3 finalCol = lerp(oriCol, _ClothCol, clothMask);
-                // fixed alpha = c.a;
-                // fixed3 border = c.r; // * alpha;
-                // fixed3 cloth = max(c.b - c.r, 0) * _ClothCol;
-                // fixed3 face = alpha * c.g;
-                // fixed3 res = face + cloth + border;
-                // fixed realAlpha = clamp(c.r + c.g + c.b, 0, 1);
                 return fixed4(finalCol, c.a);
             }
             ENDCG
