@@ -100,11 +100,15 @@ public class BaseState: MonoBehaviour
                 break;
             case StateEnum.Destroy:
                 // 销毁自己
+                gameObject.GetComponent<SpriteRenderer>().color = new Color32(0, 0, 0,0);
                 break;
             case StateEnum.BlueGreen:
+                gameObject.GetComponent<SpriteRenderer>().color = new Color32(81, 205, 224,255);
+
                 // 物体生长
                 break;
             case StateEnum.DeepGreen:
+                gameObject.GetComponent<SpriteRenderer>().color = new Color32(60, 180, 71,255);
                 // 物体变得更绿
                 break;
             default:
@@ -167,12 +171,17 @@ public class BaseState: MonoBehaviour
                 // 游戏结束
                 break;
             case StateEnum.PlayerBlue:
+                gameObject.GetComponent<SpriteRenderer>().color = new Color32(159, 212, 250,255);
                 break;
             case StateEnum.PlayerGreen:
+                gameObject.GetComponent<SpriteRenderer>().color = new Color32(159, 250, 167,255);
                 break;
             case StateEnum.PlayerRed:
+                gameObject.GetComponent<SpriteRenderer>().color = new Color32(250, 164, 159,255);
                 break;
             case StateEnum.PlayerNone:
+                gameObject.GetComponent<SpriteRenderer>().color = new Color32(255, 255, 255,255);
+
                 break;
         }
         StartCoroutine(UpdateStatusAtNextFrame(this, newState));

@@ -16,8 +16,7 @@
   },
   "PlayerGreen": {
     "Red": "GameOver",
-    "DeepBlue": "PlayerBlue",
-    "Blue": "PlayerGreen"
+    "DeepBlue": "PlayerBlue"
   },
   "PlayerBlue": {
     "Red": "PlayerNone",
