@@ -26,7 +26,7 @@ public enum StateEnum
 
 }
 
-public enum PlayTransitionAnimationEnum{
+public enum PlayerTransitionAnimationEnum{
     GameOver, // 死了（optional）
     TurnBlue, // 变蓝色
     TurnGreen, // 变绿色
