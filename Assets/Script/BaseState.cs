@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
 public enum StateEnum
@@ -111,6 +113,7 @@ public class BaseState: MonoBehaviour
             case StateEnum.Destroy:
                 // 销毁自己
                 gameObject.GetComponent<SpriteRenderer>().color = new Color32(0, 0, 0,0);
+                checkLevelCompletion(this, myState, newState);
                 break;
             case StateEnum.BlueGreen:
                 gameObject.GetComponent<SpriteRenderer>().color = new Color32(81, 205, 224,255);
@@ -128,6 +131,28 @@ public class BaseState: MonoBehaviour
 
         StartCoroutine(UpdateStatusAtNextFrame(this, newState));
         Debug.Log($"set object newState: {newState.ToString()}");
+    }
+
+    private void checkLevelCompletion(BaseState baseState, StateEnum myState, StateEnum newState)
+    {
+        var objs = FindObjectsOfType<BaseState>();
+
+        var redCount = objs.Count(obj => obj.currentState == StateEnum.Red);
+        if (myState == StateEnum.Red && newState != StateEnum.Red) 
+        {
+            redCount--;
+        }
+        if (redCount>0)
+        {
+            return;
+        }
+        
+        //  没有任何物体是红的，赢了
+        var currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        if (SceneManager.sceneCount <= currentSceneIndex+1) { // 赢麻了
+            throw new Exception("赢麻了");
+        }
+        SceneManager.LoadScene(currentSceneIndex+1);
     }
 
     private bool aboutToDestory(StateEnum myState, StateEnum otherState)
