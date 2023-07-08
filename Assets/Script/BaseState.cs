@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using UnityEngine;
 
 
@@ -26,9 +27,6 @@ public enum StateEnum
 
 public class BaseState: MonoBehaviour
 {
-    private TextAsset objectTransitionRuleText;
-    private TextAsset playerTransitionRuleText;
-
     private Dictionary<string, Dictionary<string, string>> objectTransitionRule;
     private Dictionary<string, Dictionary<string, string>> playerTransitionRule;
 
@@ -36,43 +34,51 @@ public class BaseState: MonoBehaviour
     void Start()
     {
         objectTransitionRule =
-            JsonUtility.FromJson<Dictionary<string, Dictionary<string, string>>>(objectTransitionRuleText.text);
+            JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(Resources.Load<TextAsset>("objectTransitionRule").text);
         playerTransitionRule =
-            JsonUtility.FromJson<Dictionary<string, Dictionary<string, string>>>(playerTransitionRuleText.text);
+            JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(Resources.Load<TextAsset>("playerTransitionRule").text);
     }
     
     public StateEnum currentState;
     public bool isPlayer;
 
+    public void OnTriggerEnter2D(Collider2D other)
+    {
+        if (isPlayer)
+        {
+            playerTransition(other.gameObject.GetComponent<BaseState>());
+        }
+        else
+        {
+            objectTransition(other.gameObject.GetComponent<BaseState>());
+        }
+    }
+    
     public void OnCollisionEnter2D(Collision2D collision)
     {
         var other = collision.otherCollider.gameObject.GetComponent<BaseState>();
         if (isPlayer)
         {
-            playerTransition(collision,other);
+            playerTransition(other);
         }
         else
         {
-            objectTransition(collision,other);
+            objectTransition(other);
         }
     }
 
-    private void objectTransition(Collision2D collision, BaseState other)
+    private void objectTransition(BaseState other)
     {
         var otherState = other.currentState;
         var myState = currentState;
         
         StateEnum newState = myState; // 无转移结果时，保持状态
 
-        var newStateStr = objectTransitionRule?.
-            GetValueOrDefault(myState.ToString(), null)
-            ?.GetValueOrDefault(otherState.ToString(), "")
+        var newStateStr = objectTransitionRule?
+                              [myState.ToString()]?
+                              [otherState.ToString()]
                           ?? "Unknown";
-        if (newStateStr != "Unknown")
-        {
-            myState = Enum.Parse<StateEnum>(newStateStr);
-        }
-        else
+        if (newStateStr == "Unknown" || !Enum.TryParse(newStateStr,out newState))
         {
             throw new Exception("Object Final State Unknown");
         }
@@ -104,22 +110,18 @@ public class BaseState: MonoBehaviour
         Debug.Log($"set object newState: {newState.ToString()}");
     }
 
-    private void playerTransition(Collision2D collision2D, BaseState other)
+    private void playerTransition(BaseState other)
     {
         var otherState = other.currentState;
         var myState = currentState;
         
         StateEnum newState = myState; // 无转移结果时，保持状态
 
-        var newStateStr = playerTransitionRule?.
-                              GetValueOrDefault(myState.ToString(), null)
-                              ?.GetValueOrDefault(otherState.ToString(), "")
+        var newStateStr = playerTransitionRule?
+                                  [myState.ToString()]?
+                              [otherState.ToString()]
                           ?? "Unknown";
-        if (newStateStr != "Unknown")
-        {
-            myState = Enum.Parse<StateEnum>(newStateStr);
-        }
-        else
+        if (newStateStr == "Unknown" || !Enum.TryParse(newStateStr,out newState))
         {
             throw new Exception("Object Final State Unknown");
         }
