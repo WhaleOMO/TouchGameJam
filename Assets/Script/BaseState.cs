@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using UnityEngine;
@@ -71,7 +72,12 @@ public class BaseState: MonoBehaviour
     {
         var otherState = other.currentState;
         var myState = currentState;
-        
+
+        if (aboutToDestory(myState, otherState))
+        {
+            return;
+        }
+
         StateEnum newState = myState; // 无转移结果时，保持状态
 
         var newStateStr = objectTransitionRule?
@@ -106,14 +112,39 @@ public class BaseState: MonoBehaviour
                 break;
         }
 
-        currentState = newState;
+        StartCoroutine(UpdateStatusAtNextFrame(this, newState));
         Debug.Log($"set object newState: {newState.ToString()}");
+    }
+
+    private bool aboutToDestory(StateEnum myState, StateEnum otherState)
+    {
+        if (myState == StateEnum.Destroy || myState == StateEnum.GameOver)
+        {
+            return true;
+        }
+        if (otherState == StateEnum.Destroy || otherState == StateEnum.GameOver)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    private IEnumerator UpdateStatusAtNextFrame(BaseState baseState, StateEnum newState)
+    {
+        yield return new WaitForFixedUpdate();
+        baseState.currentState = newState;
     }
 
     private void playerTransition(BaseState other)
     {
         var otherState = other.currentState;
         var myState = currentState;
+        
+        if (aboutToDestory(myState, otherState))
+        {
+            return;
+        }
         
         StateEnum newState = myState; // 无转移结果时，保持状态
 
@@ -144,7 +175,7 @@ public class BaseState: MonoBehaviour
             case StateEnum.PlayerNone:
                 break;
         }
-        currentState = newState;
+        StartCoroutine(UpdateStatusAtNextFrame(this, newState));
         Debug.Log($"set player newState: {newState.ToString()}");
     }
 }
