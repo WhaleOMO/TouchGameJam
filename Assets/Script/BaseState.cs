@@ -145,8 +145,8 @@ public class BaseState: MonoBehaviour
 
         var ivyRender = o.GetComponent<IvyController>().ivyObject.GetComponent<SpriteRenderer>().material;
 
-        var coll = o.GetComponent<BoxCollider2D>();
-        var initialSize = coll.size;
+        var initialRender = o.GetComponent<IvyController>().initialObject.GetComponent<SpriteRenderer>();
+        var initialSize = initialRender.bounds.size;
 
         var initialScale = o.transform.localScale;
         var initialPosition = o.transform.position;
