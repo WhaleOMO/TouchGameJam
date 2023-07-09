@@ -7,10 +7,12 @@ public class IvyController : MonoBehaviour
     // Start is called before the first frame update
     public GameObject initialObject;
     public GameObject ivyObject;
+    public GameObject ivyLeavesObject;
 
     public void ActivateIvy()
     {
         initialObject.SetActive(false);
         ivyObject.SetActive(true);
+        ivyLeavesObject.SetActive(true);
     }
 }

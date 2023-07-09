@@ -31,6 +31,8 @@ public class MovementController : MonoBehaviour
 
 	public void Move(Vector3 velocity, bool isCrouching)
 	{
+		
+		
 		UpdateRaycastsOrigins();
 		if (velocity.x != 0)
 		{
@@ -111,14 +113,4 @@ public class MovementController : MonoBehaviour
 		verticalRaySpacing = bounds.size.x / (verticalRayCount - 1);
 	}
 	
-	private void Flip()
-	{
-		// Switch the way the player is labelled as facing.
-		isFacingRight = !isFacingRight;
-
-		// Multiply the player's x local scale by -1.
-		Vector3 theScale = transform.localScale;
-		theScale.x *= -1;
-		transform.localScale = theScale;
-	}
 }

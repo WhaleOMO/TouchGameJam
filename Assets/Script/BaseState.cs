@@ -109,6 +109,8 @@ public class BaseState: MonoBehaviour
         {
             case StateEnum.GameOver:
                 // 游戏结束
+                FindPlayer().GetComponent<Player>().ChangeColor(new Color32(0, 0, 0,0));;
+                StartCoroutine(Restart());
                 break;
             case StateEnum.Destroy:
                 // 销毁自己
@@ -139,35 +141,45 @@ public class BaseState: MonoBehaviour
         Debug.Log($"set object newState: {newState.ToString()}");
     }
 
+    private BaseState FindPlayer()
+    {
+        var objs = FindObjectsOfType<BaseState>();
+
+       return objs.First(obj => obj.isPlayer);
+    }
+
     private IEnumerator ObjectGrowth(GameObject o,float animationDuration)
     {
         var t = 0;
 
-        var ivyRender = o.GetComponent<IvyController>().ivyObject.GetComponent<SpriteRenderer>().material;
+        var ivyRender = o.GetComponent<IvyController>().ivyObject.GetComponent<SpriteRenderer>();
+        var ivyLeavesRender = o.GetComponent<IvyController>().ivyLeavesObject.GetComponent<SpriteRenderer>();
+
 
         var initialRender = o.GetComponent<IvyController>().initialObject.GetComponent<SpriteRenderer>();
-        var initialSize = initialRender.bounds.size;
+        
+        var colider = o.gameObject.GetComponent<BoxCollider2D>();
 
-        var initialScale = o.transform.localScale;
-        var initialPosition = o.transform.position;
+        var initialSize = colider.size;
 
-        var targetScale = new Vector3(
-            x:initialScale.x,
-            y:initialScale.y*10.0f,
-            z:initialScale.z
+        var initialOffset = colider.offset;
+
+        var targetSize = new Vector2(x:initialSize.x,
+            y:initialSize.y*10.0f
             );
 
-        var targetPosition = new Vector3(
-            x: initialPosition.x,
-            y: initialPosition.y + initialSize.y*5f,
-            z: initialPosition.z
+        var targetOffset = new Vector2(
+            x:initialOffset.x,
+            y:initialOffset.y+initialSize.y*5.0f+5.0f
         );
         while (t<=100)
         {
             t += 1;
-            o.transform.position = Vector3.Lerp(initialPosition, targetPosition, t/100.0f);
-            o.transform.localScale = Vector3.Lerp(initialScale, targetScale, t/100.0f);
-            ivyRender.SetFloat(Shader.PropertyToID("_GrowthAmount"),t/100.0f);
+
+            colider.size = Vector2.Lerp(initialSize, targetSize, t/100.0f);
+            colider.offset = Vector2.Lerp(initialOffset, targetOffset, t/100.0f);
+            ivyRender.material.SetFloat(Shader.PropertyToID("_GrowthAmount"),t/100.0f);
+            ivyLeavesRender.material.SetFloat(Shader.PropertyToID("_GrowthAmount"),t/100.0f);
             yield return new WaitForSeconds(animationDuration/100.0f);
         }
     }
@@ -196,6 +208,16 @@ public class BaseState: MonoBehaviour
         if (SceneManager.sceneCountInBuildSettings <= currentSceneIndex+1) { // 赢麻了
             throw new Exception("赢麻了");
         }
+
+        StartCoroutine(NextLevel(currentSceneIndex + 1));
+        
+    }
+
+    private IEnumerator NextLevel(int currentSceneIndex)
+    {
+        FindPlayer().GetComponent<Player>().ChangeColor(new Color32(255, 255, 255,255));;
+
+        yield return new WaitForSeconds(2.0f);
         SceneManager.LoadScene(currentSceneIndex+1);
     }
 
@@ -250,6 +272,7 @@ public class BaseState: MonoBehaviour
                 // 游戏结束
                 // PlayerTransitionAnimationQueue.Enqueue(PlayerTransitionAnimationEnum.GameOver);
                 gameObject.GetComponent<Player>().ChangeColor(new Color32(0, 0, 0,0));
+                StartCoroutine(Restart());
                 break;
             case StateEnum.PlayerBlue:
                 // PlayerTransitionAnimationQueue.Enqueue(PlayerTransitionAnimationEnum.TurnBlue);
@@ -278,5 +301,11 @@ public class BaseState: MonoBehaviour
         }
         StartCoroutine(UpdateStatusAtNextFrame(this, newState));
         Debug.Log($"set player newState: {newState.ToString()}");
+    }
+
+    private IEnumerator Restart()
+    {
+        yield return new WaitForSeconds(2.0f);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
