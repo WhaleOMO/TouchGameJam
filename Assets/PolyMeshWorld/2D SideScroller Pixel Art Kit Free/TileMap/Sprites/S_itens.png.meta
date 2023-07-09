@@ -288,7 +288,7 @@ TextureImporter:
       213: 5154703675199173452
     second: S_itens 2_94
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -305,9 +305,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -339,10 +342,15 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -354,6 +362,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -366,6 +375,33 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 1024
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 1024
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
@@ -2376,9 +2412,104 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-  spritePackingTag: 
+    nameFileIdTable:
+      S_itens 2_0: -9011112303086534863
+      S_itens 2_1: -8866914853683811199
+      S_itens 2_10: -7418227487871654071
+      S_itens 2_11: 9100405659699639018
+      S_itens 2_12: -6797302861999542686
+      S_itens 2_13: -4015398104974487148
+      S_itens 2_14: 7144461970232622469
+      S_itens 2_15: -3927402730536681037
+      S_itens 2_16: 2389173129006848570
+      S_itens 2_17: 3767509892586047507
+      S_itens 2_18: 9135290836982129405
+      S_itens 2_19: -8809828132392210723
+      S_itens 2_2: 5308990275766588124
+      S_itens 2_20: 7032438533087545838
+      S_itens 2_21: 346759190954941021
+      S_itens 2_22: -998680296586514410
+      S_itens 2_23: -8231984339465249734
+      S_itens 2_24: 2105446150532771386
+      S_itens 2_25: -5198123905266382259
+      S_itens 2_26: -7061651328571757287
+      S_itens 2_27: 2496462160426239928
+      S_itens 2_28: 7463745684350701075
+      S_itens 2_29: -5180091883136634943
+      S_itens 2_3: 3097528727947826081
+      S_itens 2_30: -2411413963086398226
+      S_itens 2_31: -8872251853502552044
+      S_itens 2_32: -7213640813885616309
+      S_itens 2_33: 317245461495853918
+      S_itens 2_34: 1755911032806187032
+      S_itens 2_35: -7794360187713473945
+      S_itens 2_36: 1146510666235300713
+      S_itens 2_37: -8234513845462684532
+      S_itens 2_38: -3233218061899519303
+      S_itens 2_39: 3079371950525736371
+      S_itens 2_4: 3838774224373869199
+      S_itens 2_40: -7877950501009860776
+      S_itens 2_41: -2965519727165610408
+      S_itens 2_42: 2704201789207250504
+      S_itens 2_43: -2318276664295988381
+      S_itens 2_44: -8040332049230747898
+      S_itens 2_45: 8532858054534605639
+      S_itens 2_46: -8073815575943648589
+      S_itens 2_47: 4670700000708193415
+      S_itens 2_48: -449107852198571410
+      S_itens 2_49: 8036232394348602137
+      S_itens 2_5: -3063973124780270436
+      S_itens 2_50: 4431049466965033447
+      S_itens 2_51: 1011852458102588344
+      S_itens 2_52: -1809742862881062934
+      S_itens 2_53: 7802876241939312766
+      S_itens 2_54: -6839680747314931535
+      S_itens 2_55: 4445536223064164958
+      S_itens 2_56: -2861674888303262115
+      S_itens 2_57: -6721876331622676835
+      S_itens 2_58: -7020249139787012698
+      S_itens 2_59: -920816198671826742
+      S_itens 2_6: 8559312415210884267
+      S_itens 2_60: 4400401715622258029
+      S_itens 2_61: -2904171541335698931
+      S_itens 2_62: -3151927882528563032
+      S_itens 2_63: 7061978397125039018
+      S_itens 2_64: 5375874048278665697
+      S_itens 2_65: -3531622226345325033
+      S_itens 2_66: -6212972661170453208
+      S_itens 2_67: 1159214818287602650
+      S_itens 2_68: 63066895760470856
+      S_itens 2_69: 7590838682286993775
+      S_itens 2_7: 6651550509990678259
+      S_itens 2_70: -2175421723819871001
+      S_itens 2_71: 5248490926752926023
+      S_itens 2_72: -2943283619382172668
+      S_itens 2_73: -3684827567056827795
+      S_itens 2_74: 6402279330518341766
+      S_itens 2_75: 511047070407591104
+      S_itens 2_76: 1658855375001513126
+      S_itens 2_77: -209950847787651628
+      S_itens 2_78: -6847684533737713649
+      S_itens 2_79: 1234590316693746033
+      S_itens 2_8: 2861175646153056392
+      S_itens 2_80: -8492051968732266932
+      S_itens 2_81: 1895002085458192604
+      S_itens 2_82: -1099378986194793316
+      S_itens 2_83: 104221689421749608
+      S_itens 2_84: -2588710889446998796
+      S_itens 2_85: 1004060712333964
+      S_itens 2_86: 950193955645812272
+      S_itens 2_87: -4785036133065615453
+      S_itens 2_88: 7392561149370812073
+      S_itens 2_89: -8120065389397444788
+      S_itens 2_9: -437967280569691419
+      S_itens 2_90: -1893980903697000977
+      S_itens 2_91: -3425149731901475208
+      S_itens 2_92: 1122890436139462354
+      S_itens 2_93: 4107187715168036436
+      S_itens 2_94: 5154703675199173452
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 
