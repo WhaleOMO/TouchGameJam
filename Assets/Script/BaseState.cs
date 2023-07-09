@@ -117,12 +117,16 @@ public class BaseState: MonoBehaviour
                 break;
             case StateEnum.BlueGreen:
                 gameObject.GetComponent<SpriteRenderer>().color = new Color32(81, 205, 224,255);
-
+                StartCoroutine(ObjectGrowth(gameObject,1.0f));
+                makeCrouchable(gameObject);
                 // 物体生长
                 break;
             case StateEnum.DeepGreen:
                 gameObject.GetComponent<SpriteRenderer>().color = new Color32(60, 180, 71,255);
                 // 物体变得更绿
+                StartCoroutine(ObjectGrowth(gameObject,1.0f));
+                makeCrouchable(gameObject);
+                
                 break;
             default:
                 // 普通变色
@@ -131,6 +135,41 @@ public class BaseState: MonoBehaviour
 
         StartCoroutine(UpdateStatusAtNextFrame(this, newState));
         Debug.Log($"set object newState: {newState.ToString()}");
+    }
+
+    private IEnumerator ObjectGrowth(GameObject o,float animationDuration)
+    {
+        var t = 0;
+
+        var coll = o.GetComponent<BoxCollider2D>();
+        var initialSize = coll.size;
+
+        var initialScale = o.transform.localScale;
+        var initialPosition = o.transform.position;
+
+        var targetScale = new Vector3(
+            x:initialScale.x,
+            y:initialScale.y*10.0f,
+            z:initialScale.z
+            );
+
+        var targetPosition = new Vector3(
+            x: initialPosition.x,
+            y: initialPosition.y + initialSize.y*5f,
+            z: initialPosition.z
+        );
+        while (t<=100)
+        {
+            t += 1;
+            o.transform.position = Vector3.Lerp(initialPosition, targetPosition, t/100.0f);
+            o.transform.localScale = Vector3.Lerp(initialScale, targetScale, t/100.0f);
+            yield return new WaitForSeconds(animationDuration/100.0f);
+        }
+    }
+
+    private void makeCrouchable(GameObject o)
+    {
+        o.layer = 9;
     }
 
     private void checkLevelCompletion(BaseState baseState, StateEnum myState, StateEnum newState)
