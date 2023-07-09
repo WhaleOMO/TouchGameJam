@@ -143,31 +143,26 @@ public class BaseState: MonoBehaviour
     {
         var t = 0;
 
-        var ivyRender = o.GetComponent<IvyController>().ivyObject.GetComponent<SpriteRenderer>().material;
+        var ivyRender = o.GetComponent<IvyController>().ivyObject.GetComponent<SpriteRenderer>();
 
         var initialRender = o.GetComponent<IvyController>().initialObject.GetComponent<SpriteRenderer>();
-        var initialSize = initialRender.bounds.size;
+        
+        var colider = o.gameObject.GetComponent<BoxCollider2D>();
 
-        var initialScale = o.transform.localScale;
-        var initialPosition = o.transform.position;
+        var initialSize = colider.size;
 
-        var targetScale = new Vector3(
-            x:initialScale.x,
-            y:initialScale.y*10.0f,
-            z:initialScale.z
-            );
+        var initialOffset = colider.offset;
 
-        var targetPosition = new Vector3(
-            x: initialPosition.x,
-            y: initialPosition.y + initialSize.y*5f,
-            z: initialPosition.z
-        );
+        var targetSize = ivyRender.size;
+
+        var targetOffset = ivyRender.transform.position;
         while (t<=100)
         {
             t += 1;
-            o.transform.position = Vector3.Lerp(initialPosition, targetPosition, t/100.0f);
-            o.transform.localScale = Vector3.Lerp(initialScale, targetScale, t/100.0f);
-            ivyRender.SetFloat(Shader.PropertyToID("_GrowthAmount"),t/100.0f);
+
+            colider.size = Vector2.Lerp(initialSize, targetSize, t/100.0f);
+            colider.offset = Vector2.Lerp(initialOffset, targetOffset, t/100.0f);
+            ivyRender.material.SetFloat(Shader.PropertyToID("_GrowthAmount"),t/100.0f);
             yield return new WaitForSeconds(animationDuration/100.0f);
         }
     }
