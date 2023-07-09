@@ -7,7 +7,7 @@ using UnityEngine;
 [RequireComponent(typeof(MovementController))]
 public class Player : MonoBehaviour
 {
-    public float Gravity = -20f;
+    public float Gravity = -10f;
     public float RunSpeed = 40f;
     public LayerMask CrouchLayer;
 
@@ -43,9 +43,16 @@ public class Player : MonoBehaviour
         isCrouching = CheckIfOverlapWithCrouchable();
 
         if (!isCrouching)
+        {
+            this.Gravity = -10f;
             velocity.y = Mathf.Min(velocity.y, velocity.y + Gravity * Time.deltaTime);
+        }
         else
+        {
             velocity.y = input.y;
+            this.Gravity = 0;
+        }
+        
                 
         animator.SetBool("isWalking", isWalking);
         animator.SetBool("isCrouching", isCrouching);
@@ -66,6 +73,7 @@ public class Player : MonoBehaviour
         {
             layerMask = CrouchLayer,
             useLayerMask = true,
+            useTriggers = true
         };
         Collider2D[] results = new Collider2D[5];
         int amount = collider2D.OverlapCollider(filter2D, results);
@@ -95,7 +103,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    private async void ChangeColor(Color targetColor)
+    public async void ChangeColor(Color targetColor)
     {
         int colID = Shader.PropertyToID("_ClothCol");
         int oriColId = Shader.PropertyToID("_OriginCol");

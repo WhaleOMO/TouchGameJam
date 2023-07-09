@@ -149,7 +149,7 @@ public class BaseState: MonoBehaviour
         
         //  没有任何物体是红的，赢了
         var currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-        if (SceneManager.sceneCount <= currentSceneIndex+1) { // 赢麻了
+        if (SceneManager.sceneCountInBuildSettings <= currentSceneIndex+1) { // 赢麻了
             throw new Exception("赢麻了");
         }
         SceneManager.LoadScene(currentSceneIndex+1);
@@ -204,23 +204,31 @@ public class BaseState: MonoBehaviour
         {
             case StateEnum.GameOver:
                 // 游戏结束
-                PlayerTransitionAnimationQueue.Enqueue(PlayerTransitionAnimationEnum.GameOver);
+                // PlayerTransitionAnimationQueue.Enqueue(PlayerTransitionAnimationEnum.GameOver);
+                gameObject.GetComponent<Player>().ChangeColor(new Color32(0, 0, 0,0));
                 break;
             case StateEnum.PlayerBlue:
-                PlayerTransitionAnimationQueue.Enqueue(PlayerTransitionAnimationEnum.TurnBlue);
-                gameObject.GetComponent<SpriteRenderer>().color = new Color32(159, 212, 250,255);
+                // PlayerTransitionAnimationQueue.Enqueue(PlayerTransitionAnimationEnum.TurnBlue);
+                gameObject.GetComponent<Player>().ChangeColor(new Color32(159, 212, 250,255));
+                // gameObject.GetComponent<SpriteRenderer>().color = new Color32(159, 212, 250,255);
                 break;
             case StateEnum.PlayerGreen:
-                PlayerTransitionAnimationQueue.Enqueue(PlayerTransitionAnimationEnum.TurnGreen);
-                gameObject.GetComponent<SpriteRenderer>().color = new Color32(159, 250, 167,255);
+                // PlayerTransitionAnimationQueue.Enqueue(PlayerTransitionAnimationEnum.TurnGreen);
+                gameObject.GetComponent<Player>().ChangeColor(new Color32(159, 250, 167,255));
+
+                // gameObject.GetComponent<SpriteRenderer>().color = new Color32(159, 250, 167,255);
                 break;
             case StateEnum.PlayerRed:
-                PlayerTransitionAnimationQueue.Enqueue(PlayerTransitionAnimationEnum.TurnRed);
-                gameObject.GetComponent<SpriteRenderer>().color = new Color32(250, 164, 159,255);
+                gameObject.GetComponent<Player>().ChangeColor(new Color32(250, 164, 159,255));
+
+                // PlayerTransitionAnimationQueue.Enqueue(PlayerTransitionAnimationEnum.TurnRed);
+                // gameObject.GetComponent<SpriteRenderer>().color = new Color32(250, 164, 159,255);
                 break;
             case StateEnum.PlayerNone:
-                PlayerTransitionAnimationQueue.Enqueue(PlayerTransitionAnimationEnum.TurnNone);
-                gameObject.GetComponent<SpriteRenderer>().color = new Color32(255, 255, 255,255);
+                // PlayerTransitionAnimationQueue.Enqueue(PlayerTransitionAnimationEnum.TurnNone);
+                gameObject.GetComponent<Player>().ChangeColor(new Color32(255, 255, 255,255));
+
+                // gameObject.GetComponent<SpriteRenderer>().color = new Color32(255, 255, 255,255);
 
                 break;
         }
