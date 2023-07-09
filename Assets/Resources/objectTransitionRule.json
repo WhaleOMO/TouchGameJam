@@ -1,0 +1,34 @@
+{
+  "Red": {
+    "PlayerNone": "Destroy",
+    "PlayerBlue": "Destroy",
+    "DeepGreen": "GameOver",
+    "BlueGreen": "GameOver",
+    "PlayerGreen": "GameOver"
+  },
+  "Blue": {
+    "PlayerGreen": "DeepGreen",
+    "DeepGreen": "Destroy",
+    "PlayerNone": "Destroy",
+    "PlayerRed": "Destroy"
+  },
+  "Green": {
+    "PlayerBlue": "DeepGreen",
+    "PlayerNone": "Destroy",
+    "PlayerRed": "GameOver"
+  },
+  "DeepGreen": {
+    "DeepBlue": "BlueGreen",
+    "Red": "GameOver",
+    "PlayerRed": "GameOver"
+  },
+  "DeepBlue": {
+    "DeepGreen": "BlueGreen",
+    "BlueGreen": "BlueGreen",
+    "PlayerGreen": "BlueGreen"
+  },
+  "BlueGreen": {
+    "Red": "GameOver",
+    "PlayerRed": "GameOver"
+  }
+}
