@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Unlit_CharacterUnlit
-  m_Shader: {fileID: 4800000, guid: 023db8b7d25074c449947f6c5fc80b6c, type: 3}
+  m_Shader: {fileID: 4800000, guid: b6546dd989c7d445cac6ab20453b012e, type: 3}
   m_ShaderKeywords: ETC1_EXTERNAL_ALPHA
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0

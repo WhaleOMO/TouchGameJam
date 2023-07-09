@@ -55,7 +55,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: aaea43ebba1084a3f954ad230acefdbe, type: 2}
+  - {fileID: 2100000, guid: 4510ff3cf48024761a593c3ff1fd41f9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -158,14 +158,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 5983539079676201744}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 162549ce4276642a9a1d69475cd0da25, type: 3}
+  m_Script: {fileID: 11500000, guid: 89040fbf67ab84ba995c5e52efee067c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  obstacleMask:
+  Gravity: -10
+  RunSpeed: 40
+  CrouchLayer:
     serializedVersion: 2
-    m_Bits: 256
-  horizontalRayCount: 4
-  verticalRayCount: 4
+    m_Bits: 512
+  GreenColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &8340623727511338780
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -175,15 +176,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 5983539079676201744}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 94091e55cff4d428598dcd14c91266df, type: 3}
+  m_Script: {fileID: 11500000, guid: 5ce703fc72db4d5eb7501f26c4afadfa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Gravity: -10
-  RunSpeed: 5
-  CrouchLayer:
+  obstacleMask:
     serializedVersion: 2
-    m_Bits: 512
-  GreenColor: {r: 0.61024415, g: 0.8018868, b: 0.48794055, a: 1}
+    m_Bits: 256
+  horizontalRayCount: 4
+  verticalRayCount: 4
 --- !u!95 &4939511441232100701
 Animator:
   serializedVersion: 3
@@ -194,7 +194,7 @@ Animator:
   m_GameObject: {fileID: 5983539079676201744}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: cb4957843c7634a1e8c7fb52d3fbb157, type: 2}
+  m_Controller: {fileID: 9100000, guid: f250a8ad180e441c68b21c2e1b9cfdca, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
