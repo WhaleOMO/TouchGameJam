@@ -116,14 +116,16 @@ public class BaseState: MonoBehaviour
                 checkLevelCompletion(this, myState, newState);
                 break;
             case StateEnum.BlueGreen:
-                gameObject.GetComponent<SpriteRenderer>().color = new Color32(81, 205, 224,255);
+                // gameObject.GetComponent<SpriteRenderer>().color = new Color32(81, 205, 224,255);
+                GetComponent<IvyController>().ActivateIvy();
                 StartCoroutine(ObjectGrowth(gameObject,1.0f));
                 makeCrouchable(gameObject);
                 // 物体生长
                 break;
             case StateEnum.DeepGreen:
-                gameObject.GetComponent<SpriteRenderer>().color = new Color32(60, 180, 71,255);
+                // gameObject.GetComponent<SpriteRenderer>().color = new Color32(60, 180, 71,255);
                 // 物体变得更绿
+                GetComponent<IvyController>().ActivateIvy();
                 StartCoroutine(ObjectGrowth(gameObject,1.0f));
                 makeCrouchable(gameObject);
                 
@@ -140,6 +142,8 @@ public class BaseState: MonoBehaviour
     private IEnumerator ObjectGrowth(GameObject o,float animationDuration)
     {
         var t = 0;
+
+        var ivyRender = o.GetComponent<IvyController>().ivyObject.GetComponent<SpriteRenderer>().material;
 
         var coll = o.GetComponent<BoxCollider2D>();
         var initialSize = coll.size;
@@ -163,6 +167,7 @@ public class BaseState: MonoBehaviour
             t += 1;
             o.transform.position = Vector3.Lerp(initialPosition, targetPosition, t/100.0f);
             o.transform.localScale = Vector3.Lerp(initialScale, targetScale, t/100.0f);
+            ivyRender.SetFloat(Shader.PropertyToID("_GrowthAmount"),t/100.0f);
             yield return new WaitForSeconds(animationDuration/100.0f);
         }
     }
